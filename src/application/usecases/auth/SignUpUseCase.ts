@@ -2,6 +2,7 @@ import { Injectable } from "@kernel/decorators/Injectable";
 import { AuthGateway } from "../../../infra/gateways/AuthGateway";
 import { Account } from "@application/entities/Account";
 import { AccountRepository } from "../../../infra/database/dynamo/repositories/AccountRepository";
+import { EmailAlreadyInUse } from "@application/errors/application/EmailAlreadyInUse";
 
 @Injectable()
 export class SignUpUseCase {
@@ -13,7 +14,7 @@ export class SignUpUseCase {
         const existingAccount = await this.accountRepository.findByEmail(email);
 
         if (existingAccount) {
-            throw new Error("Account already exists");
+            throw new EmailAlreadyInUse();
         }
 
         const { externalId } = await this.authGateway.signUp({ email, password });

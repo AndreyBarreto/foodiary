@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 import { ErrorCode } from "@application/errors/ErrorCode";
 import { lambdaErrorResponse } from "@main/utils/lambdaErrorResponse";
 import { HttpError } from "@application/errors/http/HttpError";
+import { ApplicationError } from "@application/errors/application/ApplicationError";
 
 export function lambdaHttpAdapter(controller: Controller<unknown, unknown>) {
     return async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -34,6 +35,13 @@ export function lambdaHttpAdapter(controller: Controller<unknown, unknown>) {
             }
             if (error instanceof HttpError) {
                 return lambdaErrorResponse(error);
+            }
+            if (error instanceof ApplicationError) {
+                return lambdaErrorResponse({
+                    code: error.code,
+                    message: error.message,
+                    statusCode: error.statusCode ?? 400,
+                });
             }
             console.error(error)
             return lambdaErrorResponse({
