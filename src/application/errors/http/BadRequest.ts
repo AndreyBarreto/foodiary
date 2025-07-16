@@ -8,7 +8,7 @@ export class BadRequest extends HttpError {
     constructor(message: string) {
         super(message);
         this.name = "BadRequest";
-        this.code = ErrorCode.BAD_REQUEST;
+        // this.code = ErrorCode.BAD_REQUEST;
         this.message = message ?? "Bad Request";
     }
 }
