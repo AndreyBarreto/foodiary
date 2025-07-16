@@ -11,6 +11,14 @@ provider:
     ${file(./sls/config/env.yml)}
   iam:
     role: ${file(./sls/config/role.yml)}
+  httpApi:
+    authorizers:
+      CognitoAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: !GetAtt UserPool.UserPoolURL
+        audience:
+          - !Ref UserPoolClient
 
 package:
   individually: true
