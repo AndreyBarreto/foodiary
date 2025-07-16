@@ -1,15 +1,15 @@
 signUp:
   handler: src/main/functions/auth/signUp.handler
   events:
-    - http:
-        path: /auth/sign-up
+    - httpApi:
         method: POST
+        path: /auth/sign-up
 signIn:
   handler: src/main/functions/auth/signIn.handler
   events:
-    - http:
-        path: /auth/sign-in
+    - httpApi:
         method: POST
+        path: /auth/sign-in
 
 preSignUpTrigger:
     handler: src/main/functions/auth/preSignUpTrigger.handler

@@ -16,9 +16,9 @@ provider:
       CognitoAuthorizer:
         type: jwt
         identitySource: $request.header.Authorization
-        issuerUrl: !GetAtt UserPool.UserPoolURL
+        issuerUrl: !GetAtt Userpool.ProviderURL
         audience:
-          - !Ref UserPoolClient
+          - !Ref UserpoolClient
 
 package:
   individually: true
@@ -36,6 +36,7 @@ plugins:
 
 functions:
   - ${file(./sls/functions/auth.yml)}
+  - ${file(./sls/functions/meals.yml)}
 
 resources:
   - ${file(./sls/resources/UserPool.yml)}
