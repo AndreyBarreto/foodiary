@@ -1,0 +1,38 @@
+Resources:
+    Userpool:
+        Type: AWS::Cognito::UserPool
+        Properties:
+            UserPoolName: ${self:custom.cognito.poolName}
+            DeletionProtection: INACTIVE
+            MfaConfiguration: OFF
+            AutoVerifiedAttributes:
+                - email
+            AdminCreateUserConfig:
+                AllowAdminCreateUserOnly: false
+            UsernameAttributes:
+                - email
+            AccountRecoverySetting:
+                RecoveryMechanisms:
+                    - Name: verified_email
+                      Priority: 1
+            Policies:
+                PasswordPolicy:
+                    MinimumLength: 8
+                    RequireLowercase: false
+                    RequireUppercase: false
+                    RequireNumbers: false
+                    RequireSymbols: false
+    UserpoolClient:
+        Type: AWS::Cognito::UserPoolClient
+        Properties:
+            UserPoolId: !Ref Userpool
+            ClientName: foodiary-api-dev-userpool-client
+            ExplicitAuthFlows:
+                - ALLOW_USER_PASSWORD_AUTH
+            TokenValidityUnits:
+                AccessToken: hours
+            GenerateSecret: true
+            AccessTokenValidity: 1
+            RefreshTokenRotation:
+                Feature: ENABLED
+                RetryGracePeriodSeconds: 0

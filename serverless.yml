@@ -1,0 +1,34 @@
+org: deyzito
+service: foodiary-api
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs22.x
+  memorySize: 128
+  stage: ${opt:stage, 'dev'}
+  environment:
+    ${file(./sls/config/env.yml)}
+  iam:
+    role: ${file(./sls/config/role.yml)}
+
+package:
+  individually: true
+
+build:
+  esbuild:
+    configFile: ./esbuild.config.mjs
+
+custom:
+  cognito:
+    poolName: foodiary-api-dev-userpool
+
+plugins:
+  - serverless-offline
+
+functions:
+  - ${file(./sls/functions/auth.yml)}
+
+resources:
+  - ${file(./sls/resources/UserPool.yml)}
+  - ${file(./sls/resources/MainTable.yml)}
