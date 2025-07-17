@@ -4,19 +4,13 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug Serverless Offline (global)",
-            "program": "/usr/local/bin/serverless", // ou apenas "serverless" se estiver no PATH
+            "name": "Debug Jest Tests",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
             "args": [
-                "offline",
-                "start",
-                "--reloadHandler",
-                "--noTimeout"
+                "--runInBand"
             ],
-            "runtimeExecutable": "node",
             "console": "integratedTerminal",
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
