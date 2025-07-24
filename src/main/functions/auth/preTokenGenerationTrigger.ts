@@ -5,7 +5,7 @@ export async function handler(event: PreTokenGenerationV2TriggerEvent) {
         claimsAndScopeOverrideDetails: {
             accessTokenGeneration: {
                 claimsToAddOrOverride: {
-                    internalId: "1234567890",
+                    internalId: event.request.userAttributes["custom:internalId"],
                 },
             },
         },
