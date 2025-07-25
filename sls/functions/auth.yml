@@ -24,3 +24,11 @@ preSignUpTrigger:
 # See userPool.yml for more details
 preTokenGenerationTrigger:
     handler: src/main/functions/auth/preTokenGenerationTrigger.handler
+
+
+refreshToken:
+  handler: src/main/functions/auth/refreshToken.handler
+  events:
+    - httpApi:
+        method: POST
+        path: /auth/refresh-token
