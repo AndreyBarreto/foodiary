@@ -9,22 +9,21 @@ import { ApplicationError } from "@application/errors/application/ApplicationErr
 
 type LambdaEvent = APIGatewayProxyEventV2 | APIGatewayProxyEventV2WithJWTAuthorizer;
 
-export function lambdaHttpAdapter(controller: Controller<unknown, unknown>) {
+export function lambdaHttpAdapter(controller: Controller<"public" | "private", unknown>) {
     return async (event: LambdaEvent): Promise<APIGatewayProxyResultV2> => {
         try {
             const params = event.pathParameters ?? {};
             const queryParams = event.queryStringParameters ?? {};
             const body = lambdaBodyParser(event.body);
-
-
-            if ("authorizer" in event.requestContext) {
-                console.log(JSON.stringify(event.requestContext.authorizer.jwt.claims.internalId))
-            }
+            const accountId = "authorizer" in event.requestContext
+                ? event.requestContext.authorizer.jwt.claims.internalId as string
+                : null;
 
             const response = await controller.execute({
                 params,
                 queryParams,
                 body,
+                accountId,
             });
 
             return {
