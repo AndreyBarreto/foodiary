@@ -1,6 +1,6 @@
 import { Injectable } from "@kernel/decorators/Injectable";
 import { cognitoClient } from "../clients/cognitoClient";
-import { ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { AppConfig } from "@shared/config/appconfig";
 import { createHmac } from "node:crypto";
 
@@ -82,6 +82,19 @@ export class AuthGateway {
 
         await cognitoClient.send(command);
     }
+
+    async confirmForgotPassword({ email, code, newPassword }: AuthGateway.ConfirmForgotPasswordParams): Promise<AuthGateway.ConfirmForgotPasswordResult> {
+        const command = new ConfirmForgotPasswordCommand({
+            ClientId: this.appConfig.auth.cognito.client.id,
+            Username: email,
+            ConfirmationCode: code,
+            Password: newPassword,
+            SecretHash: this.getSecretHash(email),
+        });
+
+        await cognitoClient.send(command);
+    }
+
 }
 
 export namespace AuthGateway {
@@ -115,4 +128,10 @@ export namespace AuthGateway {
         email: string;
     };
     export type ForgotPasswordResult = void;
+    export type ConfirmForgotPasswordParams = {
+        email: string;
+        code: string;
+        newPassword: string;
+    };
+    export type ConfirmForgotPasswordResult = void;
 }
