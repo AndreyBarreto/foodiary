@@ -15,7 +15,7 @@ export class ProfileItem {
         return new ProfileItem({
             ...profile,
             createdAt: profile.createdAt.toISOString(),
-            birthday: profile.birthday.toISOString(),
+            birthDate: profile.birthDate.toISOString(),
         });
     }
 
@@ -24,7 +24,7 @@ export class ProfileItem {
             accountId: profileItem.accountId,
             createdAt: new Date(profileItem.createdAt),
             name: profileItem.name,
-            birthday: new Date(profileItem.birthday),
+            birthDate: new Date(profileItem.birthDate),
             gender: profileItem.gender,
             height: profileItem.height,
             weight: profileItem.weight,
@@ -58,7 +58,7 @@ export namespace ProfileItem {
     export type Attributes = {
         accountId: string;
         name: string;
-        birthday: string;
+        birthDate: string;
         gender: Profile.Gender;
         height: number;
         weight: number;

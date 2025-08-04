@@ -3,7 +3,7 @@ export class Profile {
     readonly accountId: string;
     readonly createdAt: Date;
     readonly name: string;
-    readonly birthday: Date;
+    readonly birthDate: Date;
     readonly gender: Profile.Gender;
     readonly height: number;
     readonly weight: number;
@@ -13,7 +13,7 @@ export class Profile {
         this.accountId = attributes.accountId;
         this.createdAt = attributes.createdAt ?? new Date();
         this.name = attributes.name;
-        this.birthday = attributes.birthday;
+        this.birthDate = attributes.birthDate;
         this.gender = attributes.gender;
         this.height = attributes.height;
         this.weight = attributes.weight;
@@ -27,7 +27,7 @@ export namespace Profile {
         accountId: string;
         createdAt?: Date;
         name: string;
-        birthday: Date;
+        birthDate: Date;
         gender: Profile.Gender;
         height: number;
         weight: number;
