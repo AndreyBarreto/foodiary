@@ -1,6 +1,6 @@
 import { Injectable } from "@kernel/decorators/Injectable";
 import { cognitoClient } from "../clients/cognitoClient";
-import { ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { AdminDeleteUserCommand, ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { AppConfig } from "@shared/config/appconfig";
 import { createHmac } from "node:crypto";
 
@@ -95,6 +95,14 @@ export class AuthGateway {
         await cognitoClient.send(command);
     }
 
+    async deleteUser({ externalId }: AuthGateway.DeleteUserParams): Promise<AuthGateway.DeleteUserResult> {
+        const command = new AdminDeleteUserCommand({
+            UserPoolId: this.appConfig.auth.cognito.pool.id,
+            Username: externalId,
+        });
+
+        await cognitoClient.send(command);
+    }
 }
 
 export namespace AuthGateway {
@@ -134,4 +142,9 @@ export namespace AuthGateway {
         newPassword: string;
     };
     export type ConfirmForgotPasswordResult = void;
+
+    export type DeleteUserParams = {
+        externalId: string;
+    };
+    export type DeleteUserResult = void;
 }
