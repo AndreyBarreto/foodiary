@@ -8,6 +8,7 @@ export class Profile {
     readonly height: number;
     readonly weight: number;
     readonly activityLevel: Profile.ActivityLevel;
+    readonly goal: Profile.Goal;
 
     constructor(attributes: Profile.Attributes) {
         this.accountId = attributes.accountId;
@@ -18,6 +19,7 @@ export class Profile {
         this.height = attributes.height;
         this.weight = attributes.weight;
         this.activityLevel = attributes.activityLevel;
+        this.goal = attributes.goal;
     }
 }
 
@@ -32,6 +34,7 @@ export namespace Profile {
         height: number;
         weight: number;
         activityLevel: Profile.ActivityLevel;
+        goal: Profile.Goal;
     };
 
     export enum Gender {
@@ -43,8 +46,13 @@ export namespace Profile {
         SEDENTARY = "sedentary",
         LIGHT = "light",
         MODERATE = "moderate",
-        HIGH = "high",
         HEAVY = "heavy",
         ATHLETE = "athlete",
+    }
+
+    export enum Goal {
+        LOSE_WEIGHT = "lose_weight",
+        MAINTAIN_WEIGHT = "maintain_weight",
+        GAIN_WEIGHT = "gain_weight",
     }
 }
