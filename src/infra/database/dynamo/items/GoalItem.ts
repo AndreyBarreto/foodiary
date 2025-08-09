@@ -2,7 +2,7 @@ import { AccountItem } from "./AccountItem";
 import { Goal } from "@application/entities/Goal";
 
 export class GoalItem {
-    private readonly type = "Goal"
+    static readonly type = "Goal"
     private readonly keys: GoalItem.Keys;
     constructor(private readonly attr: GoalItem.Attributes) {
         this.keys = {
@@ -40,7 +40,7 @@ export class GoalItem {
         return {
             ...this.attr,
             ...this.keys,
-            type: this.type,
+            type: GoalItem.type,
         };
     }
 }
