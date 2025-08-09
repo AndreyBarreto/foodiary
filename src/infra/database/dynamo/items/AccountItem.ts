@@ -6,7 +6,7 @@ export class AccountItem {
     constructor(private readonly attr: AccountItem.Attributes) {
         this.keys = {
             PK: AccountItem.getPk(attr.id),
-            SK: AccountItem.getSk(attr.createdAt),
+            SK: AccountItem.getSk(attr.id),
             GSI1PK: AccountItem.getGsi1Pk(attr.email),
             GSI1SK: AccountItem.getGsi1Sk(attr.email),
         };
@@ -30,8 +30,8 @@ export class AccountItem {
     static getPk(accountId: string): AccountItem.Keys["PK"] {
         return `ACCOUNT#${accountId}`;
     }
-    static getSk(createdAt: string): AccountItem.Keys["SK"] {
-        return `ACCOUNT#${createdAt}`;
+    static getSk(accountId: string): AccountItem.Keys["SK"] {
+        return `ACCOUNT#${accountId}`;
     }
     static getGsi1Pk(email: string): AccountItem.Keys["GSI1PK"] {
         return `ACCOUNT#${email}`;
