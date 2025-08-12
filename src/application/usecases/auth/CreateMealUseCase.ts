@@ -24,9 +24,12 @@ export class CreateMealUseCase {
         const [, { uploadSignature }] = await Promise.all([
             this.mealRepository.create(meal),
             this.mealsFileStorageGateway.createPOST({
-                fileKey: meal.inputFileKey,
-                inputType: meal.inputType,
-                fileSize: file.size,
+                mealId: meal.id,
+                file: {
+                    fileKey: meal.inputFileKey,
+                    inputType: meal.inputType,
+                    fileSize: file.size,
+                }
             }),
         ]);
 
