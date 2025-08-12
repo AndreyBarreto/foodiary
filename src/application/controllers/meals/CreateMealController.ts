@@ -18,13 +18,13 @@ export class CreateMealController extends Controller<"private", CreateMealContro
         const { file } = body;
         const inputType = file.type === "audio/m4a" ? Meal.InputType.AUDIO : Meal.InputType.PICTURE;
 
-        const { mealId } = await this.createMealUseCase.execute({ accountId, file: { type: inputType, size: file.size } });
+        const { mealId, uploadSignature } = await this.createMealUseCase.execute({ accountId, file: { type: inputType, size: file.size } });
 
         return {
             statusCode: 201,
             body: {
                 mealId,
-                accountId,
+                uploadSignature,
             }
         };
     }
@@ -34,6 +34,6 @@ export class CreateMealController extends Controller<"private", CreateMealContro
 export namespace CreateMealController {
     export type Response = {
         mealId: string;
-        accountId: string;
+        uploadSignature: string;
     };
 }

@@ -5,6 +5,7 @@ export const schema = z.object({
     COGNITO_CLIENT_SECRET: z.string(),
     MAIN_TABLE_NAME: z.string(),
     COGNITO_POOL_ID: z.string(),
+    MEALS_BUCKET_NAME: z.string(),
 });
 
 

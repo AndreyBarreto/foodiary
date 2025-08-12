@@ -5,6 +5,7 @@ import { env } from "./env";
 export class AppConfig {
     readonly auth: AppConfig.Auth;
     readonly database: AppConfig.Database;
+    readonly storage: AppConfig.Storage;
 
     constructor() {
         this.auth = {
@@ -24,6 +25,9 @@ export class AppConfig {
                     name: env.MAIN_TABLE_NAME,
                 },
             },
+        };
+        this.storage = {
+            mealsBucket: env.MEALS_BUCKET_NAME,
         };
     }
 }
@@ -47,4 +51,7 @@ export namespace AppConfig {
             };
         };
     };
+    export type Storage = {
+        mealsBucket: string;
+    }
 }
