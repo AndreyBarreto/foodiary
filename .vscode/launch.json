@@ -10,7 +10,14 @@
                 "--runInBand"
             ],
             "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
-        }
+            "internalConsoleOptions": "neverOpen",
+            "env": {
+                "COGNITO_CLIENT_ID": "1234567890",
+                "COGNITO_CLIENT_SECRET": "1234567890",
+                "MAIN_TABLE_NAME": "1234567890",
+                "COGNITO_POOL_ID": "1234567890",
+                "MEALS_BUCKET_NAME": "1234567890"
+            }
+        },
     ]
 }

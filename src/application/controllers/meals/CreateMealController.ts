@@ -1,6 +1,6 @@
 import { Controller } from "../../contracts/Controller";
 import { Injectable } from "@kernel/decorators/Injectable";
-import { CreateMealUseCase } from "@application/usecases/auth/CreateMealUseCase";
+import { CreateMealUseCase } from "@application/usecases/meals/CreateMealUseCase";
 import { createMealSchema } from "./schemas/createMealSchema";
 import { Schema } from "@kernel/decorators/Schema";
 import { Meal } from "@application/entities/Meal";

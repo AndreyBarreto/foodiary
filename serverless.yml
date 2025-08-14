@@ -32,6 +32,9 @@ custom:
   cognito:
     poolName: foodiary-api-dev-userpool
 
+  serverless-offline:
+    ignoreJWTSignature: true
+
 plugins:
   - serverless-offline
 

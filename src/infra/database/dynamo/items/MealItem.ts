@@ -76,9 +76,9 @@ export namespace MealItem {
         attempts: number;
         inputType: Meal.InputType;
         inputFileKey: string;
-        name: string;
-        icon: string;
-        foods: Meal.Food[];
+        name?: string;
+        icon?: string;
+        foods?: Meal.Food[];
     };
     export type ItemType = Keys & Attributes & { type: "Meal" };
 
