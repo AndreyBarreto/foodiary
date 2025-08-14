@@ -13,6 +13,8 @@ export class ListMealsByDayQuery {
             TableName: this.appConfig.database.dynamodb.mainTable.name,
             IndexName: "GSI1",
             KeyConditionExpression: "#GSI1PK = :GSI1PK",
+            FilterExpression: "#status = :status",
+            ScanIndexForward: false,
             ExpressionAttributeNames: {
                 "#GSI1PK": "GSI1PK",
                 "#id": "id",
@@ -20,9 +22,11 @@ export class ListMealsByDayQuery {
                 "#name": "name",
                 "#icon": "icon",
                 "#foods": "foods",
+                "#status": "status",
             },
             ExpressionAttributeValues: {
                 ":GSI1PK": MealItem.getGsi1Pk({ accountId, createdAt: date }),
+                ":status": Meal.Status.SUCCESS,
             },
             ProjectionExpression: "#GSI1PK, #id, #createdAt, #name, #icon, #foods",
 
