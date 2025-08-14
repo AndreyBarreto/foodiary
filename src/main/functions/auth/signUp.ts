@@ -6,5 +6,3 @@ import { lambdaHttpAdapter } from "@main/adapters/lambdaHttpAdapater";
 const controller = Registry.getInstance().resolve(SignUpController)
 
 export const handler = lambdaHttpAdapter(controller);
-
-

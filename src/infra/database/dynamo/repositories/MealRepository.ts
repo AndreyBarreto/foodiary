@@ -20,12 +20,17 @@ export class MealRepository {
     async create(meal: Meal): Promise<void> {
         await dynamoClient.send(new PutCommand(this.getPutCommand(meal)));
     }
-    // async findById({ mealId }: MealRepository.FindMealByIdParams): Promise<MealRepository.FindMealByIdOutput> {
-    //     const meal = await dynamoClient.send(new GetCommand({
-    //         TableName: this.config.database.dynamodb.mainTable.name,
-    //         Key: { PK: MealItem.getPk(mealId), SK: MealItem.getSk(mealId) },
-    //     }));
-    // }
+    async findById({ accountId, mealId }: MealRepository.FindMealByIdParams): Promise<Meal | null> {
+        const command = new GetCommand({
+            TableName: this.config.database.dynamodb.mainTable.name,
+            Key: { PK: MealItem.getPk({ accountId, mealId }), SK: MealItem.getSk({ accountId, mealId }) },
+        });
+        const { Item: mealItem } = await dynamoClient.send(command);
+
+        if (!mealItem) return null;
+
+        return MealItem.toEntity(mealItem as MealItem.ItemType);
+    }
 }
 
 export namespace MealRepository {
