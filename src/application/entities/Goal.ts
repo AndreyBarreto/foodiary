@@ -1,9 +1,9 @@
 export class Goal {
     readonly accountId: string;
-    readonly calories: number;
-    readonly protein: number;
-    readonly carbohydrates: number;
-    readonly fats: number;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
     readonly createdAt: Date;
 
     constructor(attributes: Goal.Attributes) {
