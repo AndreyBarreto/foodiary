@@ -16,6 +16,10 @@ export class MealsFileStorageGateway {
 
         return `${accountId}/${fileName}`;
     }
+    getInputFileURL(fileKey: string): string {
+        const bucket = this.appConfig.cdn.meals.mealsCDN;
+        return `https://${bucket}/${fileKey}`;
+    }
 
     async createPOST({ mealId, file }: MealsFileStorageGateway.CreatePOSTParams): Promise<MealsFileStorageGateway.CreatePOSTResult> {
         const contentType = file.inputType === Meal.InputType.AUDIO ? "audio/m4a" : "image/jpeg";

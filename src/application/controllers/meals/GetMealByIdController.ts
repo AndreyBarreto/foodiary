@@ -22,7 +22,7 @@ export class GetMealByIdController extends Controller<"private", GetMealByIdCont
                     id: meal.meal.id,
                     status: meal.meal.status,
                     inputType: meal.meal.inputType,
-                    inputFileKey: meal.meal.inputFileKey,
+                    inputFileURL: meal.meal.inputFileURL,
                     name: meal.meal.name,
                     icon: meal.meal.icon,
                     foods: meal.meal.foods,
@@ -43,7 +43,7 @@ export namespace GetMealByIdController {
             id: string;
             status: Meal.Status;
             inputType: Meal.InputType;
-            inputFileKey: string;
+            inputFileURL: string;
             name: string;
             icon: string;
             foods: Meal.Food[];
