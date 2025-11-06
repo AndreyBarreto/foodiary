@@ -4,6 +4,7 @@ import { Meal } from "@application/entities/Meal";
 import KSUID from "ksuid";
 import { s3Client } from "../clients/s3Client";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
+import { HeadObjectCommand } from "@aws-sdk/client-s3";
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class MealsFileStorageGateway {
         return `https://${bucket}/${fileKey}`;
     }
 
-    async createPOST({ mealId, file }: MealsFileStorageGateway.CreatePOSTParams): Promise<MealsFileStorageGateway.CreatePOSTResult> {
+    async createPOST({ accountId, mealId, file }: MealsFileStorageGateway.CreatePOSTParams): Promise<MealsFileStorageGateway.CreatePOSTResult> {
         const contentType = file.inputType === Meal.InputType.AUDIO ? "audio/m4a" : "image/jpeg";
         const bucket = this.appConfig.storage.mealsBucket;
         const FIVE_MINUTES_IN_SECONDS = 60 * 5;
@@ -37,16 +38,33 @@ export class MealsFileStorageGateway {
                 ["content-length-range", file.fileSize, file.fileSize],
             ],
             Fields: {
-                "x-amz-meta-meal-id": mealId,
+                "x-amz-meta-mealid": mealId,
+                "x-amz-meta-accountid": accountId,
             }
         })
 
         return {
             uploadSignature: Buffer.from(JSON.stringify({ url, fields: { ...fields, "Content-Type": contentType } })).toString("base64"),
         }
+
+    }
+    async getFileMetadata({ fileKey }: MealsFileStorageGateway.GetFileMetadataParams): Promise<MealsFileStorageGateway.GetFileMetadataResult> {
+        const command = new HeadObjectCommand({
+            Bucket: this.appConfig.storage.mealsBucket,
+            Key: fileKey,
+        })
+        const { Metadata = {} } = await s3Client.send(command);
+
+        if (!Metadata.accountid || !Metadata.mealid) {
+            throw new Error("File metadata not found for file key: " + fileKey);
+        }
+
+        return {
+            accountId: Metadata.accountid,
+            mealId: Metadata.mealid,
+        }
     }
 }
-
 export namespace MealsFileStorageGateway {
     export type GenerateInputFileKeyParams = {
         accountId: string;
@@ -64,6 +82,8 @@ export namespace MealsFileStorageGateway {
     export type CreatePOSTParams = {
 
         mealId: string;
+        accountId: string;
+
         file: {
             fileKey: string;
             inputType: Meal.InputType;
@@ -72,5 +92,13 @@ export namespace MealsFileStorageGateway {
     };
     export type CreatePOSTResult = {
         uploadSignature: string;
+    };
+
+    export type GetFileMetadataParams = {
+        fileKey: string;
+    };
+    export type GetFileMetadataResult = {
+        accountId: string;
+        mealId: string;
     };
 }
