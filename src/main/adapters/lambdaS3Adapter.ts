@@ -7,7 +7,7 @@ export function lambdaS3Adapter(eventHandler: IFileEventHandler): S3Handler {
         console.log("lambda s3 adapter received event: ", event);
         const responses = await Promise.allSettled(event.Records.map(record => {
             console.log("handling record: ", record);
-            eventHandler.handle({ fileKey: record.s3.object.key });
+            return eventHandler.handle({ fileKey: record.s3.object.key });
         }));
 
         console.log("settled responses: ", responses);

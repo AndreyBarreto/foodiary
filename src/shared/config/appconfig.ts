@@ -7,6 +7,7 @@ export class AppConfig {
     readonly database: AppConfig.Database;
     readonly storage: AppConfig.Storage;
     readonly cdn: AppConfig.CDN;
+    readonly queues: AppConfig.Queues;
 
     constructor() {
         this.auth = {
@@ -34,6 +35,10 @@ export class AppConfig {
             meals: {
                 mealsCDN: env.MEALS_CDN_DOMAIN_NAME,
             },
+        };
+        this.queues = {
+            mealsQueueURL: env.SQS_MEALS_QUEUE_URL,
+            mealsDeadLetterQueueURL: env.SQS_MEALS_DEAD_LETTER_QUEUE_URL,
         };
     }
 }
@@ -64,5 +69,9 @@ export namespace AppConfig {
         meals: {
             mealsCDN: string;
         };
+    };
+    export type Queues = {
+        mealsQueueURL: string
+        mealsDeadLetterQueueURL: string;
     };
 }

@@ -36,7 +36,7 @@ export class MealRepository {
         return MealItem.toEntity(mealItem as MealItem.ItemType);
     }
     async save(meal: Meal): Promise<void> {
-        console.log("saving meal: ", meal);
+        console.log("preparing to save meal: ", meal);
         const mealItem = MealItem.fromEntity(meal).toItem();
         const command = new UpdateCommand({
             TableName: this.config.database.dynamodb.mainTable.name,
@@ -46,8 +46,9 @@ export class MealRepository {
             ExpressionAttributeValues: { ":status": mealItem.status, ":attempts": mealItem.attempts, ":name": mealItem.name, ":icon": mealItem.icon, ":foods": mealItem.foods },
             ReturnValues: "NONE",
         });
-        console.log("command to save meal: ", command);
+        console.log("saving meal with command: ", command);
         await dynamoClient.send(command);
+        console.log("meal saved successfully");
     }
 }
 export namespace MealRepository {
