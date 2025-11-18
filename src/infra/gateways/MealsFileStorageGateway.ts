@@ -49,16 +49,20 @@ export class MealsFileStorageGateway {
 
     }
     async getFileMetadata({ fileKey }: MealsFileStorageGateway.GetFileMetadataParams): Promise<MealsFileStorageGateway.GetFileMetadataResult> {
+        console.log("getting file metadata for file key: ", fileKey);
         const command = new HeadObjectCommand({
             Bucket: this.appConfig.storage.mealsBucket,
             Key: fileKey,
         })
+        console.log("sending command to get file metadata: ", command);
         const { Metadata = {} } = await s3Client.send(command);
 
         if (!Metadata.accountid || !Metadata.mealid) {
+            console.log("file metadata not found for file key: ", fileKey);
             throw new Error("File metadata not found for file key: " + fileKey);
         }
 
+        console.log("file metadata found for file key: ", fileKey);
         return {
             accountId: Metadata.accountid,
             mealId: Metadata.mealid,

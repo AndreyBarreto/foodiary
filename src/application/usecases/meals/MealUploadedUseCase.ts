@@ -13,6 +13,7 @@ export class MealUploadedUseCase {
         private readonly mealsFileStorageGateway: MealsFileStorageGateway) { }
 
     async execute({ fileKey }: MealUploadedUseCase.Input): Promise<MealUploadedUseCase.Output> {
+        console.log("executing meal uploaded use case");
 
         const { accountId, mealId } = await this.mealsFileStorageGateway.getFileMetadata({ fileKey });
 
@@ -22,8 +23,9 @@ export class MealUploadedUseCase {
             throw new ResourceNotFound("Meal not found");
         }
 
-        // meal.status = Meal.Status.PROCESSING;
-        // await this.mealRepository.update(meal);
+        meal.status = Meal.Status.QUEUED;
+        await this.mealRepository.save(meal);
+        console.log("meal uploaded use case executed successfully");
     }
 }
 export namespace MealUploadedUseCase {
