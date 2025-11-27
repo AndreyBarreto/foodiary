@@ -14,3 +14,22 @@ Resources:
     Properties:
       QueueName: ${self:service}-${self:provider.stage}-meals-dlq
       MessageRetentionPeriod: 1209600 # 14 days to keep the message available for processing
+
+  MealsDLQAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: ${self:service}-${self:provider.stage}-meals-dlq-alarm
+      AlarmDescription: This alarm is triggered when the number of visible messages in the meals dead letter queue is greater than or equal to 1.
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 1 # time for the alarm to be triggered
+      MetricName: ApproximateNumberOfMessagesVisible
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt MealsDeadLetterQueue.QueueName
+      Namespace: AWS/SQS
+      Period: 60 # time for the metric to be calculated
+      Statistic: Sum
+      Threshold: 1 # number of messages to trigger the alarm
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref DLQAlarmsTopic

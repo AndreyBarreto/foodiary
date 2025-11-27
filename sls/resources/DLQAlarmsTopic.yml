@@ -1,0 +1,8 @@
+Resources:
+  DLQAlarmsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: ${self:service}-${self:provider.stage}-meals-dlq-topic
+      Subscription:
+        - Protocol: email
+          Endpoint: ${env:MEALS_DLQ_ALARM_EMAIL}
