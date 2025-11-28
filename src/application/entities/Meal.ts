@@ -5,7 +5,7 @@ export class Meal {
     readonly accountId: string;
     readonly createdAt: Date;
     status: Meal.Status;
-    attempts?: number;
+    attempts: number;
     readonly inputType: Meal.InputType;
     readonly inputFileKey: string;
     name?: string;
